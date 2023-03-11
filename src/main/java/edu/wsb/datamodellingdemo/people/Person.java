@@ -1,8 +1,8 @@
 package edu.wsb.datamodellingdemo.people;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import edu.wsb.datamodellingdemo.companies.Company;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
@@ -16,6 +16,11 @@ public class Person {
     @Id
     @GeneratedValue
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    @JsonIgnoreProperties("people")
+    private Company company;
 
     public Person(String username, String password, Boolean enabled) {
         this.username = username;
@@ -66,5 +71,13 @@ public class Person {
 
     public Long getId() {
         return id;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 }
