@@ -1,0 +1,10 @@
+html {
+    margin-top: 2rem;
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    background-color: darkblue;
+    color: whitesmoke;
+}
