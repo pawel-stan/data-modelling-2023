@@ -1,10 +1,12 @@
 package edu.wsb.datamodellingdemo.people;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import edu.wsb.datamodellingdemo.authorities.Authority;
 import edu.wsb.datamodellingdemo.companies.Company;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class Person {
@@ -21,6 +23,12 @@ public class Person {
     @JoinColumn(name = "company_id")
     @JsonIgnoreProperties("people")
     private Company company;
+
+    @ManyToMany
+    @JoinTable(name = "person_authrotities",
+            joinColumns = @JoinColumn(name = "person_id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id"))
+    Set<Authority> authorities;
 
     public Person(String username, String password, Boolean enabled) {
         this.username = username;
