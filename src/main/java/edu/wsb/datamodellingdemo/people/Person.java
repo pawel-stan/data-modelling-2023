@@ -88,4 +88,8 @@ public class Person {
     public void setCompany(Company company) {
         this.company = company;
     }
+
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
 }
