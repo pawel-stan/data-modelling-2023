@@ -54,6 +54,15 @@ public class PersonTraditionalController {
         return "redirect:/people/list";
     }
 
+    @GetMapping("/")
+    public ModelAndView list() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("people", personRepository.findAll());
+        modelAndView.setViewName("people/index");
+
+        return modelAndView;
+    }
+
     @GetMapping("/{username}")
     public ModelAndView show(@PathVariable String username) {
 
@@ -97,5 +106,18 @@ public class PersonTraditionalController {
         personRepository.save(person);
 
         return "redirect:/people/list";
+    }
+
+    @GetMapping("/disable")
+    public String disable(@RequestParam String username) {
+
+        Optional<Person> person = personRepository.findByUsername(username);
+
+        person.ifPresent((p) -> {
+            p.setEnabled(false);
+            personRepository.save(p);
+        });
+
+        return "redirect:/people/";
     }
 }
