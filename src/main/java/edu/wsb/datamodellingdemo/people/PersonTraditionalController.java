@@ -120,4 +120,26 @@ public class PersonTraditionalController {
 
         return "redirect:/people/";
     }
+
+    @GetMapping("/create")
+    public ModelAndView create() {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName("people/create");
+
+        return modelAndView;
+    }
+
+    @PostMapping("/savePerson")
+    public ModelAndView save(@RequestParam String username,
+                             @RequestParam String password) {
+        ModelAndView modelAndView = new ModelAndView();
+
+
+        Person person = new Person(username, password, true);
+        personRepository.save(person);
+
+        modelAndView.setViewName("redirect:/people/list");
+        return modelAndView;
+    }
 }

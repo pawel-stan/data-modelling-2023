@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Nowy człowiek</h1>
+
+<form th:action="@{/people/savePerson}"
+      method="post">
+    <label>
+        Login
+    </label>
+
+    <input name="username"/>
+
+    <label>
+        Hasło
+    </label>
+
+    <input name="password"/>
+
+    <button type="submit">
+        Zapisz
+    </button>
+</form>
+
+</body>
+</html>
