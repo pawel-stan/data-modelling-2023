@@ -2,7 +2,9 @@ package edu.wsb.datamodellingdemo.companies;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -24,6 +26,29 @@ public class CompanyTraditionalController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("companies", companyRepository.findAll());
         modelAndView.setViewName("companies/index");
+
+        return modelAndView;
+    }
+
+    @GetMapping("/create")
+    public ModelAndView create() {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName("companies/create");
+
+        return modelAndView;
+    }
+
+    @PostMapping("/save")
+    public ModelAndView save(@RequestParam String name) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        Company company = new Company();
+        company.setName(name);
+
+        companyRepository.save(company);
+
+        modelAndView.setViewName("redirect:/companies/");
 
         return modelAndView;
     }
