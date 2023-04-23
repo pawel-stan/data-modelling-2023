@@ -2,6 +2,8 @@ package edu.wsb.datamodellingdemo.people;
 
 import edu.wsb.datamodellingdemo.authorities.Authority;
 import edu.wsb.datamodellingdemo.authorities.AuthorityRepository;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,10 +18,14 @@ public class PersonTraditionalController {
     private final PersonRepository personRepository;
     private final AuthorityRepository authorityRepository;
 
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
     public PersonTraditionalController(PersonRepository personRepository,
-                                       AuthorityRepository authorityRepository) {
+                                       AuthorityRepository authorityRepository,
+                                       BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.personRepository = personRepository;
         this.authorityRepository = authorityRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @GetMapping("/{username}/authorities")
@@ -122,6 +128,7 @@ public class PersonTraditionalController {
     }
 
     @GetMapping("/create")
+    @Secured("ROLE_USER_CREATION")
     public ModelAndView create() {
         ModelAndView modelAndView = new ModelAndView();
 
@@ -135,8 +142,8 @@ public class PersonTraditionalController {
                              @RequestParam String password) {
         ModelAndView modelAndView = new ModelAndView();
 
-
-        Person person = new Person(username, password, true);
+        String hashedPassword = bCryptPasswordEncoder.encode(password);
+        Person person = new Person(username, hashedPassword, true);
         personRepository.save(person);
 
         modelAndView.setViewName("redirect:/people/list");
