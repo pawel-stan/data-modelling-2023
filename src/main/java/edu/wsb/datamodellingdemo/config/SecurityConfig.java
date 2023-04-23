@@ -21,6 +21,7 @@ public class SecurityConfig {
         httpSecurity
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/", "/contact").permitAll()
+                        .requestMatchers("/", "/demo/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
